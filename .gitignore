@@ -1,0 +1,25 @@
+# WordPress core (можно исключить, если хочешь только свою тему)
+/wp-admin/
+/wp-includes/
+/wp-*.php
+/index.php
+/license.txt
+/readme.html
+/xmlrpc.php
+
+# Конфиг с паролями — НИКОГДА не коммитим
+wp-config.php
+
+# Загруженные файлы (их много, они не нужны в Git)
+/wp-content/uploads/
+
+# Плагины (если ставишь сторонние)
+/wp-content/plugins/
+
+# Кеш и логи
+/wp-content/cache/
+*.log
+
+# Системные файлы
+.DS_Store
+Thumbs.db
