@@ -109,6 +109,7 @@
         </div>
     </section>
     <!-- Акция месяца -->
+        <!-- Акция месяца -->
     <section class="promo-section">
         <div class="container">
 
@@ -122,95 +123,59 @@
 
             <div class="products-grid">
 
-                <div class="product-card">
-                    <span class="product-card__badge">Товар дня</span>
-                    <div class="product-card__image">💊</div>
-                    <h3 class="product-card__name">Велсон таблетки покрыт. плен. об. 3 мг, 30 шт.</h3>
-                    <ul class="product-card__specs">
-                        <li>Бренд: Lirina</li>
-                        <li>Количество в упаковке: 10 шт</li>
-                        <li>Код товара: 153249</li>
-                    </ul>
-                    <div class="product-card__footer">
-                        <div class="product-card__prices">
-                            <span class="product-card__price">41 108 руб.</span>
-                            <span class="product-card__old-price">49 999 руб.</span>
-                        </div>
-                        <button class="product-card__cart" type="button">🛒</button>
-                    </div>
-                </div>
+                <?php
+                $products = new WP_Query([
+                    'post_type'      => 'product',
+                    'posts_per_page' => 5,
+                ]);
 
-                <div class="product-card">
-                    <span class="product-card__badge">Товар дня</span>
-                    <div class="product-card__image">💊</div>
-                    <h3 class="product-card__name">Велсон таблетки покрыт. плен. об. 3 мг, 30 шт.</h3>
-                    <ul class="product-card__specs">
-                        <li>Бренд: Lirina</li>
-                        <li>Количество в упаковке: 10 шт</li>
-                        <li>Код товара: 153249</li>
-                    </ul>
-                    <div class="product-card__footer">
-                        <div class="product-card__prices">
-                            <span class="product-card__price">41 108 руб.</span>
-                            <span class="product-card__old-price">49 999 руб.</span>
-                        </div>
-                        <button class="product-card__cart" type="button">🛒</button>
-                    </div>
-                </div>
+                if ($products->have_posts()) :
+                    while ($products->have_posts()) : $products->the_post();
+                        $price     = get_post_meta(get_the_ID(), '_product_price', true);
+                        $old_price = get_post_meta(get_the_ID(), '_product_old_price', true);
+                        $brand     = get_post_meta(get_the_ID(), '_product_brand', true);
+                        $quantity  = get_post_meta(get_the_ID(), '_product_quantity', true);
+                        $code      = get_post_meta(get_the_ID(), '_product_code', true);
+                        $badge     = get_post_meta(get_the_ID(), '_product_badge', true);
+                ?>
 
-                <div class="product-card">
-                    <span class="product-card__badge">Товар дня</span>
-                    <div class="product-card__image">💊</div>
-                    <h3 class="product-card__name">Велсон таблетки покрыт. плен. об. 3 мг, 30 шт.</h3>
-                    <ul class="product-card__specs">
-                        <li>Бренд: Lirina</li>
-                        <li>Количество в упаковке: 10 шт</li>
-                        <li>Код товара: 153249</li>
-                    </ul>
-                    <div class="product-card__footer">
-                        <div class="product-card__prices">
-                            <span class="product-card__price">41 108 руб.</span>
-                            <span class="product-card__old-price">49 999 руб.</span>
-                        </div>
-                        <button class="product-card__cart" type="button">🛒</button>
-                    </div>
-                </div>
+                    <div class="product-card">
+                        <?php if ($badge) : ?>
+                            <span class="product-card__badge"><?php echo esc_html($badge); ?></span>
+                        <?php endif; ?>
 
-                <div class="product-card">
-                    <span class="product-card__badge">Товар дня</span>
-                    <div class="product-card__image">💊</div>
-                    <h3 class="product-card__name">Велсон таблетки покрыт. плен. об. 3 мг, 30 шт.</h3>
-                    <ul class="product-card__specs">
-                        <li>Бренд: Lirina</li>
-                        <li>Количество в упаковке: 10 шт</li>
-                        <li>Код товара: 153249</li>
-                    </ul>
-                    <div class="product-card__footer">
-                        <div class="product-card__prices">
-                            <span class="product-card__price">41 108 руб.</span>
-                            <span class="product-card__old-price">49 999 руб.</span>
+                        <div class="product-card__image">
+                            <?php if (has_post_thumbnail()) : ?>
+                                <?php the_post_thumbnail('medium'); ?>
+                            <?php else : ?>
+                                💊
+                            <?php endif; ?>
                         </div>
-                        <button class="product-card__cart" type="button">🛒</button>
-                    </div>
-                </div>
 
-                <div class="product-card">
-                    <span class="product-card__badge">Товар дня</span>
-                    <div class="product-card__image">💊</div>
-                    <h3 class="product-card__name">Велсон таблетки покрыт. плен. об. 3 мг, 30 шт.</h3>
-                    <ul class="product-card__specs">
-                        <li>Бренд: Lirina</li>
-                        <li>Количество в упаковке: 10 шт</li>
-                        <li>Код товара: 153249</li>
-                    </ul>
-                    <div class="product-card__footer">
-                        <div class="product-card__prices">
-                            <span class="product-card__price">41 108 руб.</span>
-                            <span class="product-card__old-price">49 999 руб.</span>
+                        <h3 class="product-card__name"><?php the_title(); ?></h3>
+
+                        <ul class="product-card__specs">
+                            <?php if ($brand) : ?><li>Бренд: <?php echo esc_html($brand); ?></li><?php endif; ?>
+                            <?php if ($quantity) : ?><li>Количество в упаковке: <?php echo esc_html($quantity); ?></li><?php endif; ?>
+                            <?php if ($code) : ?><li>Код товара: <?php echo esc_html($code); ?></li><?php endif; ?>
+                        </ul>
+
+                        <div class="product-card__footer">
+                            <div class="product-card__prices">
+                                <?php if ($price) : ?><span class="product-card__price"><?php echo esc_html($price); ?></span><?php endif; ?>
+                                <?php if ($old_price) : ?><span class="product-card__old-price"><?php echo esc_html($old_price); ?></span><?php endif; ?>
+                            </div>
+                            <button class="product-card__cart" type="button">🛒</button>
                         </div>
-                        <button class="product-card__cart" type="button">🛒</button>
                     </div>
-                </div>
+
+                <?php
+                    endwhile;
+                    wp_reset_postdata();
+                else :
+                    echo '<p>Товаров пока нет.</p>';
+                endif;
+                ?>
 
             </div>
         </div>
